@@ -19,5 +19,12 @@ class UserSeeder extends Seeder
         });
 
         // create admins
+        $admins = \App\Models\User::factory(5)->create(['role_id' => $createdRoles->firstWhere('name', 'admin')->id]);
+
+        // create teachers
+        $teachers = \App\Models\User::factory(10)->create(['role_id' => $createdRoles->firstWhere('name', 'teacher')->id]);
+
+        // create students
+        $students = \App\Models\User::factory(100)->create(['role_id' => $createdRoles->firstWhere('name', 'student')->id]);
     }
 }
