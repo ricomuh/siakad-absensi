@@ -17,5 +17,7 @@ class UserSeeder extends Seeder
         $createdRoles = $roles->map(function ($role) {
             return \App\Models\Role::create(['name' => $role]);
         });
+
+        // create admins
     }
 }
