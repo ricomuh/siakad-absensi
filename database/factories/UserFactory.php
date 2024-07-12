@@ -25,7 +25,12 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'email' => function (array $attributes) {
+                // get the role name from the role_id
+                $role = \App\Models\Role::find($attributes['role_id'])->name;
+                return $role . '.' . str($attributes['name'])->slug() . '@example.com';
+                // return fake()->unique()->safeEmail();
+            },
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),

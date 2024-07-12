@@ -26,5 +26,12 @@ class UserSeeder extends Seeder
 
         // create students
         $students = \App\Models\User::factory(100)->create(['role_id' => $createdRoles->firstWhere('name', 'student')->id]);
+
+        // call ClassSeeder with variable $admins, $teachers, and $students
+        $this->call(ClassSeeder::class, false,  [
+            'admins' => $admins,
+            'teachers' => $teachers,
+            'students' => $students,
+        ]);
     }
 }

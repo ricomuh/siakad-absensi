@@ -17,7 +17,9 @@ class ClassRoomFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => function ($attributes) {
+                return 'Class ' . $attributes['grade'] . ' ' . $this->faker->randomLetter;
+            },
         ];
     }
 }
