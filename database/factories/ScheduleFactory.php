@@ -19,7 +19,7 @@ class ScheduleFactory extends Factory
     {
         return [
             'class_subject_id' => 1,
-            'day' => $this->faker->numberBetween(0, 6),
+            'day' => $this->faker->numberBetween(1, 5),
             'start_time' => $this->faker->time(),
             // add 1 or 2 hours to start_time
             'end_time' => fn (array $attributes) => Carbon::parse($attributes['start_time'])

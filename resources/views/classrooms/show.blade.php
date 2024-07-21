@@ -4,6 +4,80 @@
 
     <div class="container-fluid">
         <div class="row">
+            <!-- Informasi Kelas - 50% -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Informasi Kelas</h3>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $classroom->name }}</h5>
+
+                        {{-- <p class="card-text">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            {{ $classroom->teacher->name }}
+                        </p>
+                        <p class="card-text">
+                            <i class="fas fa-users"></i>
+                            {{ $classroom->students->count() }} Murid
+                        </p> --}}
+
+                        <p class="card-text">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <strong>Guru:</strong> {{ $classroom->teacher->name }}
+
+                            <br>
+
+                            <i class="fas fa-users"></i>
+                            <strong>Murid:</strong> {{ $classroom->students->count() }} Murid
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit Kelas - 50% -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Edit Kelas</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tombol Edit kelas -->
+                        <a href="{{ route('classrooms.edit', $classroom) }}" class="btn btn-primary">
+                            <i class="fas fa-edit"></i>
+                            Edit Kelas
+                        </a>
+
+                        <!-- Tombol Hapus kelas -->
+                        <form action="{{ route('classrooms.destroy', $classroom) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kelas ini?')">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash"></i>
+                                Hapus Kelas
+                            </button>
+                        </form>
+
+                        <!-- Tombol Tambah Murid -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addStudentModal">
+                            <i class="fas fa-user-plus"></i>
+                            Tambah Murid
+                        </button>
+
+                        <!-- Tombol Tambah Mata Pelajaran -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addSubjectModal">
+                            <i class="fas fa-book"></i>
+                            Tambah Mata Pelajaran
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
             <!-- Daftar Murid - 60% -->
             <div class="col-md-7">
                 <div class="card">
@@ -58,7 +132,18 @@
                                     <td>{{ $subject->name }}</td>
                                     <td>{{ $subject->teacher->name }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-info btn-sm">Detail</a>
+                                        <div class="d-flex align-items-center">
+                                            <a href="#" class="btn btn-info btn-sm me-2">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -69,6 +154,9 @@
             </div>
         </div>
     </div>
+
+    {{-- schedules --}}
+    <x-schedules :schedules="$schedules" />
 
     @push('styles')
     <!-- DataTables -->

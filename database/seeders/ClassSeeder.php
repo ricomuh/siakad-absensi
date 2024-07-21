@@ -56,7 +56,7 @@ class ClassSeeder extends Seeder
                 });
 
                 $createdSubjects->each(function ($subjects) use ($class) {
-                    $subjects->random()->each(function ($subject) use ($class) {
+                    $subjects->random(4)->each(function ($subject) use ($class) {
                         $classSubject =
                             ClassSubject::create([
                                 'class_room_id' => $class->id,

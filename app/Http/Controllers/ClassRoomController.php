@@ -67,8 +67,9 @@ class ClassRoomController extends Controller
 
             return $schedule;
         })->groupBy('day')->sortKeys()
-            // change the key to the dayName
-            ->mapWithKeys(function ($schedules, $day) {
+            ->map(function ($schedules) {
+                return $schedules->sortBy('start_time');
+            })->mapWithKeys(function ($schedules, $day) {
                 return [$schedules->first()->dayName => $schedules];
             });
 
