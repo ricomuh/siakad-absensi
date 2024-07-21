@@ -76,6 +76,12 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
+    // get the role name
+    public function getRoleNameAttribute()
+    {
+        return $this->role->name;
+    }
+
     /**
      * Check if the user is an admin.
      *
