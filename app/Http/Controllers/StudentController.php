@@ -37,8 +37,8 @@ class StudentController extends Controller
         ]);
 
         User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
+            'name' => $request->name,
+            'email' => $request->email,
             'password' => bcrypt('password'),
             'role_id' => RoleEnum::STUDENT,
         ]);
