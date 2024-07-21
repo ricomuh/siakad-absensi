@@ -37,6 +37,6 @@ class Subject extends Model
      */
     public function classRooms(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(ClassSubject::class, 'class_subjects', 'subject_id', 'class_room_id');
+        return $this->belongsToMany(ClassSubject::class, 'class_subjects');
     }
 }

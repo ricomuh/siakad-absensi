@@ -14,6 +14,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = User::students()->get();
+        return response()->json($students);
 
         return view('students.index', compact('students'));
     }

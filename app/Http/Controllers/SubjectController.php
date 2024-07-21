@@ -21,8 +21,10 @@ class SubjectController extends Controller
                 $query->where('teacher_id', request('teacher_id'));
             })
             ->with('teacher')
-            ->withCount('classRooms')
+            // ->withCount('classRooms')
             ->get();
+
+        // return response()->json($subjects);
 
         return view('subjects.index', compact('subjects'));
     }
