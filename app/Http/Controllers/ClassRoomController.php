@@ -59,8 +59,23 @@ class ClassRoomController extends Controller
 
         // flatten the students array
         $students = $classroom->students->pluck('student')->all();
+        $subjects = $classroom->subjects->pluck('subject')->all();
+        // set the schedules->subject to the subject
+        // change the key to the dayName
+        $schedules = collect($classroom->subjects->pluck('schedules')->flatten()->all())->map(function ($schedule) use ($classroom) {
+            $schedule->subject = $classroom->subjects->firstWhere('id', $schedule->class_subject_id)->subject->name;
 
-        return view('classrooms.show', compact('classroom', 'students'));
+            return $schedule;
+        })->groupBy('day')->sortKeys()
+            // change the key to the dayName
+            ->mapWithKeys(function ($schedules, $day) {
+                return [$schedules->first()->dayName => $schedules];
+            });
+
+
+        // dd($subjects, $schedules);
+
+        return view('classrooms.show', compact('classroom', 'students', 'subjects', 'schedules'));
     }
 
     /**

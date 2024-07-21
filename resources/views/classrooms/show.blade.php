@@ -2,36 +2,71 @@
     @section('title', $classroom->name)
     <x-success-message />
 
-    <div class="container">
-        {{-- card with table of students --}}
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Daftar Murid</h3>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Daftar Murid - 60% -->
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Daftar Murid</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="students">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Nama</th>
+                                    <th style="width: 40px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($students as $student)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $student->name }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-sm">Detail</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <!-- /.card-header -->
-            <div class="card-body p-0">
-                <table class="table table-striped" id="students">
-                    <thead>
-                        <tr>
-                            <th style="width: 10px">#</th>
-                            <th>Nama</th>
-                            <th style="width: 40px">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($students as $student)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $student->name }}</td>
-                            <td>
-                                <a href="#" class="btn btn-info btn-sm">Detail</a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+
+            <!-- Mata Pelajaran - 40% -->
+            <div class="col-md-5">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Mata Pelajaran</h3>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="subjects">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10px">#</th>
+                                    <th>Nama</th>
+                                    <th>Guru</th>
+                                    <th style="width: 40px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($subjects as $subject)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $subject->name }}</td>
+                                    <td>{{ $subject->teacher->name }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-info btn-sm">Detail</a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
-            <!-- /.card-body -->
         </div>
     </div>
 
@@ -54,6 +89,7 @@
     <script>
         $(function () {
             $('#students').DataTable();
+            $('#subjects').DataTable();
         });
     </script>
     @endpush

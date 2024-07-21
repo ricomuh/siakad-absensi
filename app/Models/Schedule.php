@@ -47,7 +47,7 @@ class Schedule extends Model
      *
      * @return string
      */
-    public function getDayAttribute(): string
+    public function getDayNameAttribute(): string
     {
         $days = [
             0 => 'Sunday',
