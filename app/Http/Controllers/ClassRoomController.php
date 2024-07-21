@@ -47,30 +47,36 @@ class ClassRoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ClassRoom $classRoom)
+    public function show(ClassRoom $classroom)
     {
-        $classRoom->load('teacher', 'students.student');
+        // $classroom->load('teacher', 'students.student', 'subjects.subject');
+        $classroom->load([
+            'teacher',
+            'students.student',
+            'subjects' => ['subject', 'schedules']
+        ]);
+        // dd($classroom);
 
         // flatten the students array
-        $students = $classRoom->students->pluck('student')->all();
+        $students = $classroom->students->pluck('student')->all();
 
-        return view('classrooms.show', compact('classRoom', 'students'));
+        return view('classrooms.show', compact('classroom', 'students'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ClassRoom $classRoom)
+    public function edit(ClassRoom $classroom)
     {
         $teachers = User::teachers()->get();
 
-        return view('classrooms.edit', compact('classRoom', 'teachers'));
+        return view('classrooms.edit', compact('classroom', 'teachers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ClassRoom $classRoom)
+    public function update(Request $request, ClassRoom $classroom)
     {
         $request->validate([
             'name' => 'required',
@@ -78,7 +84,7 @@ class ClassRoomController extends Controller
             'teacher_id' => 'required|exists:users,id'
         ]);
 
-        $classRoom->update($request->all());
+        $classroom->update($request->all());
 
         return redirect()->route('classrooms.index')->with('success', 'Classroom updated successfully.');
     }
@@ -86,11 +92,11 @@ class ClassRoomController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ClassRoom $classRoom)
+    public function destroy(ClassRoom $classroom)
     {
-        $classRoom->students()->delete();
+        $classroom->students()->delete();
 
-        $classRoom->delete();
+        $classroom->delete();
 
         return redirect()->route('classrooms.index')->with('success', 'Classroom deleted successfully.');
     }

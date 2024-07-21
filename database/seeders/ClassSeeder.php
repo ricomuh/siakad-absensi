@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\ClassSubject;
+use App\Models\Schedule;
 use App\Models\StudentClass;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -56,27 +57,18 @@ class ClassSeeder extends Seeder
 
                 $createdSubjects->each(function ($subjects) use ($class) {
                     $subjects->random()->each(function ($subject) use ($class) {
-                        ClassSubject::create([
-                            'class_room_id' => $class->id,
-                            'subject_id' => $subject->id,
+                        $classSubject =
+                            ClassSubject::create([
+                                'class_room_id' => $class->id,
+                                'subject_id' => $subject->id,
+                            ]);
+
+                        Schedule::factory(rand(1, 2))->create([
+                            'class_subject_id' => $classSubject->id,
                         ]);
                     });
                 });
             });
         });
-
-        // $classRooms->each(function ($classRoom) use ($students) {
-        //     $classRoom->each(function ($class) use ($students) {
-        //         $students->random(10)->each(function ($student) use ($class) {
-        //             $class->students()->attach($student->id);
-        //         });
-
-        //         $class->classSubjects()->attach(
-        //             $class->students->pluck('id')->map(function ($studentId) use ($class) {
-        //                 return $class->subjects->random()->id;
-        //             })
-        //         );
-        //     });
-        // });
     }
 }

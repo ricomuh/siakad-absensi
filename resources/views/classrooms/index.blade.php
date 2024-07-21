@@ -1,5 +1,5 @@
 <x-main-layout>
-    @section('title', 'Classrooms')
+    @section('title', 'Master Kelas')
     <x-success-message />
     <div class="row justify-content-center w-full">
         <a href="{{ route('classrooms.create') }}" class="btn btn-primary col-2 mb-2">Add Classroom</a>
