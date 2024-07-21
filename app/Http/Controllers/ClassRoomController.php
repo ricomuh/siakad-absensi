@@ -41,7 +41,7 @@ class ClassRoomController extends Controller
 
         ClassRoom::create($request->all());
 
-        return redirect()->route('classrooms.index');
+        return redirect()->route('classrooms.index')->with('success', 'Classroom created successfully.');
     }
 
     /**
@@ -80,7 +80,7 @@ class ClassRoomController extends Controller
 
         $classRoom->update($request->all());
 
-        return redirect()->route('classrooms.index');
+        return redirect()->route('classrooms.index')->with('success', 'Classroom updated successfully.');
     }
 
     /**
@@ -92,6 +92,6 @@ class ClassRoomController extends Controller
 
         $classRoom->delete();
 
-        return redirect()->route('classrooms.index');
+        return redirect()->route('classrooms.index')->with('success', 'Classroom deleted successfully.');
     }
 }
