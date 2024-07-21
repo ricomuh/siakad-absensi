@@ -39,4 +39,14 @@ class ClassRoom extends Model
     {
         return $this->hasMany(StudentClass::class, 'class_room_id');
     }
+
+    /**
+     * Get the subjects that belong to the class room.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function subjects(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(ClassSubject::class);
+    }
 }

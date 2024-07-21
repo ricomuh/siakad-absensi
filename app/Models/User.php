@@ -48,6 +48,24 @@ class User extends Authenticatable
         ];
     }
 
+    // admins scope
+    public function scopeAdmins($query)
+    {
+        return $query->where('role_id', RoleEnum::ADMIN);
+    }
+
+    // teachers scope
+    public function scopeTeachers($query)
+    {
+        return $query->where('role_id', RoleEnum::TEACHER);
+    }
+
+    // students scope
+    public function scopeStudents($query)
+    {
+        return $query->where('role_id', RoleEnum::STUDENT);
+    }
+
     /**
      * Get the role of the user.
      *
