@@ -19,6 +19,8 @@ class StudentClass extends Model
         'class_room_id'
     ];
 
+    public $timestamps = false;
+
     /**
      * Get the student of the class.
      *

@@ -19,6 +19,8 @@ class ClassSubject extends Model
         'subject_id'
     ];
 
+    public $timestamps = false;
+
     /**
      * Get the class room of the class subject.
      *

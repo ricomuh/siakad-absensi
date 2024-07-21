@@ -15,7 +15,7 @@ Route::redirect('/', '/dashboard');
 Route::get('/dashboard', function () {
     return view('dash');
 })->middleware(['auth', 'verified'])->name('dashboard');
-Auth::loginUsingId(1);
+// Auth::loginUsingId(1);
 
 Route::middleware('auth')->group(function () {
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

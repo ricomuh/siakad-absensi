@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\ClassSubject;
+use App\Models\StudentClass;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -32,6 +34,7 @@ class ClassSeeder extends Seeder
             $createdSubjects->push(
                 \App\Models\Subject::factory(5)->create([
                     'grade' => $grade,
+                    'teacher_id' => $teachers->random()->id,
                 ])
             );
 
@@ -41,13 +44,39 @@ class ClassSeeder extends Seeder
             ]);
         });
 
-        $classRooms->each(function ($classRoom) use ($admins, $students) {
-            $classRoom->each(function ($class) use ($admins, $students) {
-                $class->subjects()->attach($class->grade, $class->grade + 1, $class->grade + 2);
+        $classRooms->each(function ($classRoom) use ($students, $createdSubjects) {
+            $classRoom->each(function ($class) use ($students, $createdSubjects) {
+                $students->random(10)->each(function ($student) use ($class) {
+                    // $class->students()->attach($student->id);
+                    StudentClass::create([
+                        'class_room_id' => $class->id,
+                        'student_id' => $student->id,
+                    ]);
+                });
 
-                $class->students()->attach($students->random(30)->pluck('id'));
-                // $class->students()->attach($admins->random(2)->pluck('id'));
+                $createdSubjects->each(function ($subjects) use ($class) {
+                    $subjects->random()->each(function ($subject) use ($class) {
+                        ClassSubject::create([
+                            'class_room_id' => $class->id,
+                            'subject_id' => $subject->id,
+                        ]);
+                    });
+                });
             });
         });
+
+        // $classRooms->each(function ($classRoom) use ($students) {
+        //     $classRoom->each(function ($class) use ($students) {
+        //         $students->random(10)->each(function ($student) use ($class) {
+        //             $class->students()->attach($student->id);
+        //         });
+
+        //         $class->classSubjects()->attach(
+        //             $class->students->pluck('id')->map(function ($studentId) use ($class) {
+        //                 return $class->subjects->random()->id;
+        //             })
+        //         );
+        //     });
+        // });
     }
 }
