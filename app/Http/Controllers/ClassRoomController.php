@@ -13,7 +13,10 @@ class ClassRoomController extends Controller
      */
     public function index()
     {
-        $classrooms = ClassRoom::with('teacher')->withCount('students', 'subjects')->get();
+        $classrooms = ClassRoom::with('teacher')
+            ->withCount('students', 'subjects')
+            ->latest()
+            ->get();
 
         return view('classrooms.index', compact('classrooms'));
     }
