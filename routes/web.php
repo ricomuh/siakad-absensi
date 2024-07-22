@@ -4,6 +4,7 @@ use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectClassController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +32,11 @@ Route::middleware('auth')->group(function () {
             ->name('classrooms.students.store');
         Route::delete('/classrooms/{classroom}/students', [StudentClassController::class, 'destroy'])
             ->name('classrooms.students.destroy');
+
+        Route::post('/classrooms/{classroom}/subjects', [SubjectClassController::class, 'store'])
+            ->name('classrooms.subjects.store');
+        Route::delete('/classrooms/{classroom}/subjects', [SubjectClassController::class, 'destroy'])
+            ->name('classrooms.subjects.destroy');
 
         Route::resource('subjects', SubjectController::class);
         Route::resource('students', StudentController::class);

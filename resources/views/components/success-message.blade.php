@@ -23,3 +23,12 @@
     </div>
 </div>
 @endif
+
+@push('scripts')
+<script>
+    // auto close the alert after 3 seconds
+    $(".alert").delay(3000).slideUp(300, function() {
+        $(this).alert('close');
+    });
+</script>
+@endpush

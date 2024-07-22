@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClassRoom;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -63,7 +64,13 @@ class ClassRoomController extends Controller
 
         // flatten the students array
         $students = $classroom->students->pluck('student')->all();
+        $allStudents = User::students()->get();
         $subjects = $classroom->subjects->pluck('subject')->all();
+        $allSubjects = Subject::where('grade', $classroom->grade)
+            ->whereNotIn('id', $classroom->subjects->pluck('id'))
+            ->with('teacher')
+            ->get();
+        // dd($allSubjects);
         // set the schedules->subject to the subject
         // change the key to the dayName
         $schedules = collect($classroom->subjects->pluck('schedules')->flatten()->all())->map(function ($schedule) use ($classroom) {
@@ -80,7 +87,7 @@ class ClassRoomController extends Controller
 
         // dd($subjects, $schedules);
 
-        return view('classrooms.show', compact('classroom', 'students', 'subjects', 'schedules'));
+        return view('classrooms.show', compact('classroom', 'students', 'subjects', 'schedules', 'allStudents', 'allSubjects'));
     }
 
     /**

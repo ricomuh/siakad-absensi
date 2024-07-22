@@ -151,9 +151,11 @@
                                             <a href="{{ route('subjects.show', $subject) }}" class="btn btn-info btn-sm me-2">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')">
+                                            <form action="{{ route('classrooms.subjects.destroy', $classroom) }}"
+                                            method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')">
                                                 @csrf
                                                 @method('DELETE')
+                                                <input type="hidden" name="subject_id" value="{{ $subject->id }}">
                                                 <button type="submit" class="btn btn-danger btn-sm">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
@@ -173,11 +175,72 @@
     {{-- schedules --}}
     <x-schedules :schedules="$schedules" />
 
+    <!-- Modal Tambah Murid -->
+    <x-modal name="addStudentModal">
+        <form action="{{ route('classrooms.students.store', $classroom) }}" method="POST">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title" id="addStudentModalLabel">Tambah Murid ke Kelas {{ $classroom->name }}</h5>
+                <!-- For Bootstrap 4 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select name="student_id" class="form-control" required>
+                    <option selected disabled>Pilih Murid</option>
+                    @foreach ($allStudents as $student)
+                    <option value="{{ $student->id }}">{{ $student->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Tambah</button>
+            </div>
+        </form>
+    </x-modal>
+
+    <!-- Modal Tambah Mata Pelajaran -->
+    <x-modal name="addSubjectModal">
+        <form action="{{ route('classrooms.subjects.store', $classroom) }}" method="POST">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title" id="addSubjectModalLabel">Tambah Mata Pelajaran ke Kelas {{ $classroom->name }}</h5>
+                <!-- For Bootstrap 4 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select name="subject_id" class="form-control" required>
+                    <option selected disabled>Pilih Mata Pelajaran</option>
+                    @foreach ($allSubjects as $subject)
+                    <option value="{{ $subject->id }}">{{ $subject->name . ' - ' . $subject->teacher->name . ' (Kelas ' . $subject->grade . ')' }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Tambah</button>
+            </div>
+        </form>
+    </x-modal>
+
     @push('styles')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+
+    <!-- Modal -->
+    <style>
+        .modal-body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
     @endpush
 
     @push('scripts')
