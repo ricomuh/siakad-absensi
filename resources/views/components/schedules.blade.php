@@ -24,14 +24,14 @@ $colors = [
                     </div>
                     <div class="card-body">
                         @foreach ($daySchedule as $schedule)
-                        <a class="card card-primary card-outline mb-2" href="#">
+                        <a class="card card-primary card-outline mb-2" href="{{ $schedule->subject ? route('subjects.show', $schedule->subject) : route('classrooms.show', $schedule->classroom) }}">
                             <div class="card-header">
                                 <h5 class="card-title text-bold text-dark">
                                     {{-- {{ $schedule->subject }} <br> --}}
                                     @if ($schedule->subject)
-                                    {{ $schedule->subject }}
+                                    {{ $schedule->subject->name }}
                                     @else
-                                    {{ $schedule->classroom }}
+                                    {{ $schedule->classroom->name }}
                                     @endif
                                     <br>
                                     {{ $schedule->start_time }} - {{ $schedule->end_time }}

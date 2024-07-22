@@ -133,7 +133,7 @@
                                     <td>{{ $subject->teacher->name }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="#" class="btn btn-info btn-sm me-2">
+                                            <a href="{{ route('subjects.show', $subject) }}" class="btn btn-info btn-sm me-2">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus mata pelajaran ini?')">

@@ -85,7 +85,7 @@ class SubjectController extends Controller
             return [$schedules->first()->dayName => $schedules];
         })->map(function ($schedules) {
             return $schedules->map(function ($schedule) {
-                $schedule->classroom = $schedule->classSubject->classRoom->name;
+                $schedule->classroom = $schedule->classSubject->classRoom;
 
                 return $schedule;
             });

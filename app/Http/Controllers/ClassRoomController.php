@@ -63,7 +63,7 @@ class ClassRoomController extends Controller
         // set the schedules->subject to the subject
         // change the key to the dayName
         $schedules = collect($classroom->subjects->pluck('schedules')->flatten()->all())->map(function ($schedule) use ($classroom) {
-            $schedule->subject = $classroom->subjects->firstWhere('id', $schedule->class_subject_id)->subject->name;
+            $schedule->subject = $classroom->subjects->firstWhere('id', $schedule->class_subject_id)->subject;
 
             return $schedule;
         })->groupBy('day')->sortKeys()
