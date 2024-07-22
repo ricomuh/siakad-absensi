@@ -14,7 +14,7 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers = User::teachers()
-            ->with('subjects')
+            ->with('subjects', 'teachingClassRooms')
             ->get();
 
         // dd($teachers);
@@ -55,8 +55,12 @@ class TeacherController extends Controller
      */
     public function show(User $teacher)
     {
-        $classrooms = $teacher->classRooms()->get();
-        $subjects = $teacher->subjects()->get();
+        $teacher->load('classRooms', 'subjects');
+
+        $classrooms = $teacher->classRooms->pluck('classRoom');
+        $subjects = $teacher->subjects->pluck('subject');
+
+        dd($classrooms, $subjects);
 
         return view('teachers.show', compact('teacher', 'classrooms', 'subjects'));
     }

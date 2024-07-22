@@ -18,6 +18,7 @@
                             <th scope="col">Nama</th>
                             <th scope="col">NIP</th>
                             <th scope="col">Mapel</th>
+                            <th scope="col">Walikelas</th>
                             <th scope="col">Aksi</th>
                         </tr>
                     </thead>
@@ -29,16 +30,18 @@
                             <td>{{ $teacher->nip }}</td>
                             <td>
                                 @foreach ($teacher->subjects as $subject)
-                                <span class="badge badge-primary">{{ $subject->name }}</span>
+                                <a class="badge badge-primary" href="{{ route('subjects.show', $subject) }}"
+                                >{{ $subject->name . ' (Kelas ' . $subject->grade . ')' }}</a>
                                 @endforeach
                             </td>
                             <td>
-                                <a href="{{ route('teachers.edit', $teacher->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                </form>
+                                @forelse ($teacher->teachingClassRooms as $classRoom)
+                                <a href="{{ route('classrooms.show', $classRoom) }}" class="badge badge-info">{{ $classRoom->name }}</a>
+                                @empty
+                                <span class="badge badge-secondary">Tidak menjadi walikelas</span>
+                                @endforelse
+                            <td>
+                                <a href="{{ route('teachers.show', $teacher) }}" class="btn btn-info btn-sm">Detail</a>
                             </td>
                         </tr>
                         @endforeach

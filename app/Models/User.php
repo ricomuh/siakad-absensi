@@ -119,9 +119,6 @@ class User extends Authenticatable
      */
     public function classRooms(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        if ($this->isTeacher()) {
-            return $this->hasMany(ClassRoom::class, 'teacher_id');
-        }
 
         return $this->hasMany(StudentClass::class, 'student_id');
     }
@@ -133,11 +130,18 @@ class User extends Authenticatable
      */
     public function classRoom(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        if ($this->isTeacher()) {
-            return $this->hasOne(ClassRoom::class, 'teacher_id');
-        }
 
         return $this->hasOne(StudentClass::class, 'student_id');
+    }
+
+    /**
+     * Get the classrooms that the user teaches.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function teachingClassRooms(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ClassRoom::class, 'teacher_id');
     }
 
     /**
