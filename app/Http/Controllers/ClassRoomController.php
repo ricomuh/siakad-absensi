@@ -42,9 +42,10 @@ class ClassRoomController extends Controller
             'teacher_id' => 'required|exists:users,id'
         ]);
 
-        ClassRoom::create($request->all());
+        $classroom =
+            ClassRoom::create($request->all());
 
-        return redirect()->route('classrooms.index')->with('success', 'Classroom created successfully.');
+        return redirect()->route('classrooms.show', $classroom)->with('success', 'Classroom created successfully.');
     }
 
     /**
@@ -105,7 +106,7 @@ class ClassRoomController extends Controller
 
         $classroom->update($request->all());
 
-        return redirect()->route('classrooms.index')->with('success', 'Classroom updated successfully.');
+        return redirect()->route('classrooms.show', $classroom)->with('success', 'Classroom updated successfully.');
     }
 
     /**
