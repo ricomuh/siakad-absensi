@@ -20,6 +20,7 @@ class StudentController extends Controller
                     $query->where('class_room_id', request('class_room_id'));
                 });
             })
+            ->latest()
             ->get();
 
         $classRooms = ClassRoom::select('id', 'name')->get();

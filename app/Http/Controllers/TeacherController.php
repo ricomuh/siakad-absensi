@@ -15,6 +15,7 @@ class TeacherController extends Controller
     {
         $teachers = User::teachers()
             ->with('subjects', 'teachingClassRooms')
+            ->latest()
             ->get();
 
         // dd($teachers);
