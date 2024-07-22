@@ -55,14 +55,11 @@ class TeacherController extends Controller
      */
     public function show(User $teacher)
     {
-        $teacher->load('classRooms', 'subjects');
+        $teacher->load('subjects', 'teachingClassRooms');
 
-        $classrooms = $teacher->classRooms->pluck('classRoom');
-        $subjects = $teacher->subjects->pluck('subject');
+        // dd($teacher);
 
-        dd($classrooms, $subjects);
-
-        return view('teachers.show', compact('teacher', 'classrooms', 'subjects'));
+        return view('teachers.show', compact('teacher'));
     }
 
     /**

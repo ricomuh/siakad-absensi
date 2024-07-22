@@ -29,10 +29,12 @@
                             <td>{{ $teacher->name }}</td>
                             <td>{{ $teacher->nip }}</td>
                             <td>
-                                @foreach ($teacher->subjects as $subject)
+                                @forelse ($teacher->subjects as $subject)
                                 <a class="badge badge-primary" href="{{ route('subjects.show', $subject) }}"
                                 >{{ $subject->name . ' (Kelas ' . $subject->grade . ')' }}</a>
-                                @endforeach
+                                @empty
+                                <span class="badge badge-secondary">Tidak mengajar mapel</span>
+                                @endforelse
                             </td>
                             <td>
                                 @forelse ($teacher->teachingClassRooms as $classRoom)
