@@ -89,7 +89,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->role->name === RoleEnum::ADMIN;
+        return $this->role_id === RoleEnum::ADMIN;
     }
 
     /**
@@ -99,7 +99,7 @@ class User extends Authenticatable
      */
     public function isTeacher(): bool
     {
-        return $this->role->name === RoleEnum::TEACHER;
+        return $this->role_id === RoleEnum::TEACHER;
     }
 
     /**
@@ -109,7 +109,7 @@ class User extends Authenticatable
      */
     public function isStudent(): bool
     {
-        return $this->role->name === RoleEnum::STUDENT;
+        return $this->role_id === RoleEnum::STUDENT;
     }
 
     /**
@@ -147,9 +147,9 @@ class User extends Authenticatable
      */
     public function subjects(): \Illuminate\Database\Eloquent\Relations\HasMany | null
     {
-        if (!$this->isTeacher()) {
-            return null;
-        }
+        // if (!$this->isTeacher()) {
+        //     return null;
+        // }
 
         return $this->hasMany(Subject::class, 'teacher_id');
     }

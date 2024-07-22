@@ -13,7 +13,11 @@ class TeacherController extends Controller
      */
     public function index()
     {
-        $teachers = User::teachers()->get();
+        $teachers = User::teachers()
+            ->with('subjects')
+            ->get();
+
+        // dd($teachers);
 
         return view('teachers.index', compact('teachers'));
     }

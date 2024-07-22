@@ -49,6 +49,12 @@ class Sidebar extends Component
                     'route' => 'students.index',
                     'icon' => 'fas fa-user-graduate',
                 ];
+            $menus[] =
+                [
+                    'name' => 'Guru',
+                    'route' => 'teachers.index',
+                    'icon' => 'fas fa-chalkboard-teacher',
+                ];
         }
 
 

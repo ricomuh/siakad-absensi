@@ -27,17 +27,21 @@ class ClassSeeder extends Seeder
             'Chemistry',
             'Biology',
             'History',
+            'Geography',
         ]);
 
         $createdSubjects = collect();
 
-        $classRooms = $grades->map(function ($grade) use ($teachers, $createdSubjects) {
-            $createdSubjects->push(
-                \App\Models\Subject::factory(5)->create([
-                    'grade' => $grade,
-                    'teacher_id' => $teachers->random()->id,
-                ])
-            );
+        $classRooms = $grades->map(function ($grade) use ($teachers, $createdSubjects, $subjects) {
+            $subjects->each(function ($subject) use ($grade, $teachers, $createdSubjects) {
+                $createdSubjects->push(
+                    \App\Models\Subject::create([
+                        'name' => $subject,
+                        'grade' => $grade,
+                        'teacher_id' => $teachers->random()->id,
+                    ])
+                );
+            });
 
             return \App\Models\ClassRoom::factory(3)->create([
                 'grade' => $grade,
@@ -55,18 +59,16 @@ class ClassSeeder extends Seeder
                     ]);
                 });
 
-                $createdSubjects->each(function ($subjects) use ($class) {
-                    $subjects->random(4)->each(function ($subject) use ($class) {
-                        $classSubject =
-                            ClassSubject::create([
-                                'class_room_id' => $class->id,
-                                'subject_id' => $subject->id,
-                            ]);
-
-                        Schedule::factory(rand(1, 2))->create([
-                            'class_subject_id' => $classSubject->id,
+                $createdSubjects->random(4)->each(function ($subject) use ($class) {
+                    $classSubject =
+                        ClassSubject::create([
+                            'class_room_id' => $class->id,
+                            'subject_id' => $subject->id,
                         ]);
-                    });
+
+                    Schedule::factory(rand(1, 2))->create([
+                        'class_subject_id' => $classSubject->id,
+                    ]);
                 });
             });
         });
