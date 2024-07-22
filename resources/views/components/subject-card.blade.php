@@ -21,7 +21,7 @@ $colors = [
         </div>
 
         <div class=" row d-flex" style="margin-top: 10px;">
-            <h5 class="card-title col-12" style="display: inline-block; font-weight: bold">{{ $subject->name }} for {{ $subject->grade }}
+            <h5 class="card-title col-12" style="display: inline-block; font-weight: bold">{{ $subject->name }} untuk kelas {{ $subject->grade }}
             </h5>
             <p class="card-text col-12" style="display: inline-block;">
                 <i class="fas fa-chalkboard-teacher"></i>
@@ -33,14 +33,14 @@ $colors = [
         <ul class="nav flex-column">
             <li class="nav-item">
                 <a href="{{ route('subjects.show', $subject) }}#students" class="nav-link">
-                    Students <span class="float-right badge bg-info">{{ $subject->students_count }}</span>
+                    Jumlah Kelas <span class="float-right badge bg-info">{{ $subject->class_rooms_count }}</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ route('subjects.show', $subject) }}#schedules" class="nav-link">
                     Schedule <span class="float-right badge bg-info">{{ $subject->schedules_count }}</span>
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </div>
 </div>

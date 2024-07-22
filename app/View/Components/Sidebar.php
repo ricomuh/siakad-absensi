@@ -37,6 +37,12 @@ class Sidebar extends Component
                     'route' => 'classrooms.index',
                     'icon' => 'fas fa-school',
                 ];
+            $menus[] =
+                [
+                    'name' => 'Mata Pelajaran',
+                    'route' => 'subjects.index',
+                    'icon' => 'fas fa-book',
+                ];
         }
 
 

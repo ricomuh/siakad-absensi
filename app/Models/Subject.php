@@ -31,12 +31,12 @@ class Subject extends Model
     }
 
     /**
-     * Get the class rooms that belong to the subject.
+     * Get the class rooms of the subject.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function classRooms(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function classRooms(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(ClassSubject::class, 'class_subjects');
+        return $this->hasMany(ClassSubject::class);
     }
 }

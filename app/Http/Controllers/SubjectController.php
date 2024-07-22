@@ -21,12 +21,16 @@ class SubjectController extends Controller
                 $query->where('teacher_id', request('teacher_id'));
             })
             ->with('teacher')
-            // ->withCount('classRooms')
+            ->withCount('classRooms')
             ->get();
+
+        // dd($subjects);
+        $teachers = User::teachers()->get();
+        $grades = Subject::select('grade')->distinct()->get()->pluck('grade');
 
         // return response()->json($subjects);
 
-        return view('subjects.index', compact('subjects'));
+        return view('subjects.index', compact('subjects', 'teachers', 'grades'));
     }
 
     /**
