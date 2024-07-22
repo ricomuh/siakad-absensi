@@ -43,6 +43,12 @@ class Sidebar extends Component
                     'route' => 'subjects.index',
                     'icon' => 'fas fa-book',
                 ];
+            $menus[] =
+                [
+                    'name' => 'Siswa',
+                    'route' => 'students.index',
+                    'icon' => 'fas fa-user-graduate',
+                ];
         }
 
 

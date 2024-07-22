@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RoleEnum;
+use App\Models\ClassRoom;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,10 +14,17 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = User::students()->get();
-        return response()->json($students);
+        $students = User::students()->with('classRoom.classRoom')
+            ->when(request('class_room_id'), function ($query) {
+                $query->whereHas('classRooms', function ($query) {
+                    $query->where('class_room_id', request('class_room_id'));
+                });
+            })
+            ->get();
 
-        return view('students.index', compact('students'));
+        $classRooms = ClassRoom::select('id', 'name')->get();
+
+        return view('students.index', compact('students', 'classRooms'));
     }
 
     /**

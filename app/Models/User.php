@@ -111,4 +111,24 @@ class User extends Authenticatable
     {
         return $this->role->name === RoleEnum::STUDENT;
     }
+
+    /**
+     * Get the classrooms that belong to the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function classRooms(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(StudentClass::class, 'student_id');
+    }
+
+    /**
+     * Get only one classroom that belong to the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function classRoom(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(StudentClass::class, 'student_id');
+    }
 }
