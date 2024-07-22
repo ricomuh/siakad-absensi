@@ -98,15 +98,7 @@
                                             <i class="fas fa-eye"></i>
                                             Detail
                                         </a>
-                                        <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus murid ini dari kelas?')">
-                                            @csrf
-                                            <input type="hidden" name="student_id" value="{{ $student->id }}">
-                                            <button type="submit" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-trash"></i>
-                                                Hapus
-                                            </button>
-                                        </form>
-                                        {{-- <form action="{{ route('classrooms.remove_student', $classroom) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus murid ini dari kelas?')">
+                                        {{-- <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus murid ini dari kelas?')">
                                             @csrf
                                             <input type="hidden" name="student_id" value="{{ $student->id }}">
                                             <button type="submit" class="btn btn-danger btn-sm">
@@ -114,6 +106,15 @@
                                                 Hapus
                                             </button>
                                         </form> --}}
+                                        <form action="{{ route('classrooms.students.destroy', $classroom) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus murid ini dari kelas?')">
+                                            @method('DELETE')
+                                            @csrf
+                                            <input type="hidden" name="student_id" value="{{ $student->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                                Hapus
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach
