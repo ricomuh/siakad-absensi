@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ClassSubject;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ class SubjectController extends Controller
             })
             ->with('teacher')
             ->withCount('classRooms', 'schedules')
+            ->latest()
             ->get();
 
         // dd($subjects);
@@ -68,16 +70,6 @@ class SubjectController extends Controller
 
         // flatten the class rooms
         $classRooms = $subject->classRooms->pluck('classRoom')->all();
-
-        // dd($subject);
-        // schedules grouped by class room and then by day
-        // $schedules = $subject->schedules->groupBy('classSubject.classRoom.name')->map(function ($schedules) {
-        //     return $schedules->groupBy('day')->sortKeys()->map(function ($schedules) {
-        //         return $schedules->sortBy('start_time');
-        //     })->mapWithKeys(function ($schedules, $day) {
-        //         return [$schedules->first()->dayName => $schedules];
-        //     });
-        // });
 
         $schedules = $subject->schedules->groupBy('day')->sortKeys()->map(function ($schedules) {
             return $schedules->sortBy('start_time');
@@ -130,10 +122,19 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
+        // dd($subject->classRooms(), $subject->schedules());
+
         // remove the class rooms that belong to the subject
-        $subject->classRooms()->delete();
+        // $subject->classRooms()->delete();
+        // remove the schedules that belong to the subject
+        $classSubjects = ClassSubject::query()->where('subject_id', $subject->id)->get();
+        $classSubjects->each(function ($classSubject) {
+            $classSubject->schedules()->delete();
+            $classSubject->delete();
+        });
 
         $subject->delete();
+
 
         return redirect()->route('subjects.index')->with('success', 'Subject deleted successfully.');
     }
