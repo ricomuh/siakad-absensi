@@ -114,7 +114,12 @@ class ClassRoomController extends Controller
      */
     public function destroy(ClassRoom $classroom)
     {
+        // remove all students, subjects, and schedules related to the classroom
         $classroom->students()->delete();
+        $classroom->subjects->each(function ($subject) {
+            $subject->schedules()->delete();
+        });
+        $classroom->subjects()->delete();
 
         $classroom->delete();
 
