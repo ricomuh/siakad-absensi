@@ -95,10 +95,11 @@ class TeacherController extends Controller
      */
     public function destroy(User $teacher)
     {
-        $teacher->subjects()->detach();
-        $teacher->classRooms()->detach();
-
-        $teacher->delete();
+        try {
+            $teacher->delete();
+        } catch (\Exception $e) {
+            return redirect()->route('teachers.show', $teacher)->with('error', 'Teacher cannot be deleted, because some resources are dependent on it.');
+        }
 
         return redirect()->route('teachers.index')->with('success', 'Teacher deleted successfully.');
     }
