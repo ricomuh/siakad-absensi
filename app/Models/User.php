@@ -119,6 +119,10 @@ class User extends Authenticatable
      */
     public function classRooms(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
+        if ($this->isTeacher()) {
+            return $this->hasMany(ClassRoom::class, 'teacher_id');
+        }
+
         return $this->hasMany(StudentClass::class, 'student_id');
     }
 
@@ -129,6 +133,24 @@ class User extends Authenticatable
      */
     public function classRoom(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
+        if ($this->isTeacher()) {
+            return $this->hasOne(ClassRoom::class, 'teacher_id');
+        }
+
         return $this->hasOne(StudentClass::class, 'student_id');
+    }
+
+    /**
+     * Get the subjects that belong to the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany | null
+     */
+    public function subjects(): \Illuminate\Database\Eloquent\Relations\HasMany | null
+    {
+        if (!$this->isTeacher()) {
+            return null;
+        }
+
+        return $this->hasMany(Subject::class, 'teacher_id');
     }
 }
