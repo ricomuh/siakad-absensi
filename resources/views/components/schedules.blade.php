@@ -18,7 +18,7 @@ $colors = [
     <div class="container-fluid">
         <div class="row five-cards-per-row">
             @foreach ($schedules as $day => $daySchedule)
-            <div class="col-6 col-md mb-3"> <!-- Adjusted for 5 cards per row -->
+            <div class="col-12 col-md mb-3"> <!-- Adjusted for 5 cards per row -->
                 <div class="card {{ $colors[$loop->iteration] }}">
                     <div class="card-header">
                         <h3 class="card-title">
@@ -74,9 +74,15 @@ $colors = [
 
 @push('styles')
 <style>
-    .five-cards-per-row .col-md {
+    /* .five-cards-per-row .col-md {
         flex: 0 0 20%;
         max-width: 20%;
+    } */
+     @media (min-width: 768px) {
+        .five-cards-per-row .col-md {
+            flex: 0 0 20%;
+            max-width: 20%;
+        }
     }
 </style>
 
