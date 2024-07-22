@@ -7,7 +7,11 @@
             <!-- Informasi Kelas - 50% -->
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header with-back-button">
+                        <a href="{{ route('classrooms.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali
+                        </a>
                         <h3 class="card-title">Informasi Kelas</h3>
                     </div>
                     <div class="card-body">

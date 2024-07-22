@@ -8,7 +8,11 @@
             <!-- Informasi Mata Pelajaran - 50% -->
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header with-back-button">
+                        <a href="{{ route('subjects.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali
+                        </a>
                         <h3 class="card-title">Informasi Mata Pelajaran</h3>
                     </div>
                     <div class="card-body">

@@ -49,12 +49,7 @@
                             <td>{{ $student->nis }}</td>
                             <td>{{ $student->classRoom?->classRoom?->name }}</td>
                             <td>
-                                <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                                </form>
+                                <a href="{{ route('students.show', $student) }}" class="btn btn-info btn-sm">Detail</a>
                             </td>
                         </tr>
                         @endforeach
