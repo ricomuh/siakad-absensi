@@ -36,11 +36,11 @@ $colors = [
                     Jumlah Kelas <span class="float-right badge bg-info">{{ $subject->class_rooms_count }}</span>
                 </a>
             </li>
-            {{-- <li class="nav-item">
+            <li class="nav-item">
                 <a href="{{ route('subjects.show', $subject) }}#schedules" class="nav-link">
-                    Schedule <span class="float-right badge bg-info">{{ $subject->schedules_count }}</span>
+                    Jumlah Jadwal <span class="float-right badge bg-info">{{ $subject->schedules_count }}</span>
                 </a>
-            </li> --}}
+            </li>
         </ul>
     </div>
 </div>

@@ -27,7 +27,13 @@ $colors = [
                         <a class="card card-primary card-outline mb-2" href="#">
                             <div class="card-header">
                                 <h5 class="card-title text-bold text-dark">
-                                    {{ $schedule->subject }} <br>
+                                    {{-- {{ $schedule->subject }} <br> --}}
+                                    @if ($schedule->subject)
+                                    {{ $schedule->subject }}
+                                    @else
+                                    {{ $schedule->classroom }}
+                                    @endif
+                                    <br>
                                     {{ $schedule->start_time }} - {{ $schedule->end_time }}
                                 </h5>
                             </div>

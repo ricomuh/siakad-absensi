@@ -18,7 +18,8 @@ class ClassRoomFactory extends Factory
     {
         return [
             'name' => function ($attributes) {
-                return 'Class ' . $attributes['grade'] . ' ' . $this->faker->randomLetter;
+                // return 'Kelas ' . $attributes['grade'] . ' ' . $this->faker->randomLetter;
+                return 'Kelas ' . $attributes['grade'] . '' . str($this->faker->randomLetter)->upper();
             },
         ];
     }

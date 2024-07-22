@@ -15,21 +15,20 @@ class Schedule extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'class_room_id',
-        'subject_id',
+        'class_subject_id',
         'day',
         'start_time',
         'end_time',
     ];
 
     /**
-     * Get the class room that owns the schedule.
+     * Get the class subject that owns the schedule.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function classRoom()
+    public function classSubject()
     {
-        return $this->belongsTo(ClassRoom::class);
+        return $this->belongsTo(ClassSubject::class);
     }
 
     /**
@@ -49,14 +48,23 @@ class Schedule extends Model
      */
     public function getDayNameAttribute(): string
     {
+        // $days = [
+        //     0 => 'Sunday',
+        //     1 => 'Monday',
+        //     2 => 'Tuesday',
+        //     3 => 'Wednesday',
+        //     4 => 'Thursday',
+        //     5 => 'Friday',
+        //     6 => 'Saturday',
+        // ];
         $days = [
-            0 => 'Sunday',
-            1 => 'Monday',
-            2 => 'Tuesday',
-            3 => 'Wednesday',
-            4 => 'Thursday',
-            5 => 'Friday',
-            6 => 'Saturday',
+            'Minggu',
+            'Senin',
+            'Selasa',
+            'Rabu',
+            'Kamis',
+            'Jumat',
+            'Sabtu',
         ];
 
         return $days[$this->attributes['day']];

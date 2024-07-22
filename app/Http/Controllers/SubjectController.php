@@ -21,7 +21,7 @@ class SubjectController extends Controller
                 $query->where('teacher_id', request('teacher_id'));
             })
             ->with('teacher')
-            ->withCount('classRooms')
+            ->withCount('classRooms', 'schedules')
             ->get();
 
         // dd($subjects);
@@ -64,12 +64,39 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        $subject->load('teacher', 'classRooms.classRoom');
+        $subject->load('teacher', 'classRooms.classRoom.teacher', 'schedules.classSubject.classRoom');
 
         // flatten the class rooms
         $classRooms = $subject->classRooms->pluck('classRoom')->all();
 
-        return view('subjects.show', compact('subject', 'classRooms'));
+        // dd($subject);
+        // schedules grouped by class room and then by day
+        // $schedules = $subject->schedules->groupBy('classSubject.classRoom.name')->map(function ($schedules) {
+        //     return $schedules->groupBy('day')->sortKeys()->map(function ($schedules) {
+        //         return $schedules->sortBy('start_time');
+        //     })->mapWithKeys(function ($schedules, $day) {
+        //         return [$schedules->first()->dayName => $schedules];
+        //     });
+        // });
+
+        $schedules = $subject->schedules->groupBy('day')->sortKeys()->map(function ($schedules) {
+            return $schedules->sortBy('start_time');
+        })->mapWithKeys(function ($schedules, $day) {
+            return [$schedules->first()->dayName => $schedules];
+        })->map(function ($schedules) {
+            return $schedules->map(function ($schedule) {
+                $schedule->classroom = $schedule->classSubject->classRoom->name;
+
+                return $schedule;
+            });
+        });
+
+        // dd($schedules);
+
+
+        // dd($subject, $classRooms);
+
+        return view('subjects.show', compact('subject', 'classRooms', 'schedules'));
     }
 
     /**

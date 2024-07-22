@@ -39,4 +39,14 @@ class Subject extends Model
     {
         return $this->hasMany(ClassSubject::class);
     }
+
+    /**
+     * Get the schedules of the subject.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function schedules(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Schedule::class, ClassSubject::class);
+    }
 }
