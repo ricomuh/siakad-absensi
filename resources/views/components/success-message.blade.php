@@ -32,3 +32,20 @@
     });
 </script>
 @endpush
+
+@if ($errors->any())
+<div class="container">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <ul>
+            @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        <!-- close button -->
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <!-- close icon -->
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>
+@endif

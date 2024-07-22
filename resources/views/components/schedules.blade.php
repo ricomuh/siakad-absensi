@@ -1,4 +1,7 @@
-@props(['schedules'])
+@props([
+    'schedules',
+    'classroomid' => null,
+])
 @php
 $colors = [
     'bg-light',
@@ -24,20 +27,42 @@ $colors = [
                     </div>
                     <div class="card-body">
                         @foreach ($daySchedule as $schedule)
-                        <a class="card card-primary card-outline mb-2" href="{{ $schedule->subject ? route('subjects.show', $schedule->subject) : route('classrooms.show', $schedule->classroom) }}">
+                        <div class="card card-primary card-outline mb-2">
                             <div class="card-header">
                                 <h5 class="card-title text-bold text-dark">
                                     {{-- {{ $schedule->subject }} <br> --}}
                                     @if ($schedule->subject)
-                                    {{ $schedule->subject->name }}
+                                    <a href="href="{{ $schedule->subject ? route('subjects.show', $schedule->subject) : route('classrooms.show', $schedule->classroom) }}">
+                                        {{ $schedule->subject->name }}
+                                    </a>
                                     @else
-                                    {{ $schedule->classroom->name }}
+                                    {{-- {{ $schedule->classroom->name }} --}}
+                                    <a href="{{ route('classrooms.show', $schedule->classroom) }}">
+                                        {{ $schedule->classroom->name }}
+                                    </a>
                                     @endif
                                     <br>
                                     {{ $schedule->start_time }} - {{ $schedule->end_time }}
                                 </h5>
                             </div>
-                        </a>
+                            @if ($classroomid)
+                                <div class="card-footer">
+                                {{-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editScheduleModal" data-schedule="{{ $schedule }}">
+                                    Edit
+                                </button> --}}
+                                {{-- <form action="{{ route('classrooms.schedules.destroy', ['classroom' => $classroomid, 'schedule' => $schedule->id]) }}" method="POST" class="d-inline"> --}}
+
+                                    <form action="{{ route('classrooms.schedules.destroy', $schedule->id) }}" onsubmit="return confirm('Are you sure you want to delete this schedule?')" method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input type="hidden" name="schedule_id" value="{{ $schedule->id }}">
+                                        <button type="submit" class="btn btn-danger">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
+                        </div>
                         @endforeach
                     </div>
                 </div>

@@ -65,6 +65,17 @@
                             Tambah Mata Pelajaran
                         </button>
 
+                        <!-- Tombol Tambah Jadwal -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addScheduleModal">
+                            <i class="fas fa-calendar-plus"></i>
+                            Tambah Jadwal
+                        </button>
+
+                        <!-- Tombol List Jadwal -->
+                        {{-- <button type="button" class="btn btn-info" data-toggle="modal" data-target="#scheduleModal">
+                            <i class="fas fa-calendar-alt"></i>
+                            List Jadwal
+                        </button> --}}
                     </div>
                 </div>
             </div>
@@ -173,7 +184,7 @@
     </div>
 
     {{-- schedules --}}
-    <x-schedules :schedules="$schedules" />
+    <x-schedules :schedules="$schedules" :classroomid="$classroom->id" />
 
     <!-- Modal Tambah Murid -->
     <x-modal name="addStudentModal">
@@ -227,6 +238,110 @@
         </form>
     </x-modal>
 
+    <!-- Modal Tambah Jadwal -->
+    <x-modal name="addScheduleModal">
+        <form action="{{ route('classrooms.schedules.store', $classroom) }}" method="POST">
+            @csrf
+            <div class="modal-header">
+                <h5 class="modal-title" id="addScheduleModalLabel">Tambah Jadwal ke Kelas {{ $classroom->name }}</h5>
+                <!-- For Bootstrap 4 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="day">Hari</label>
+                    <select name="day" class="form-control" required>
+                        <option selected disabled>Pilih Hari</option>
+                        <option value="0">Minggu</option>
+                        <option value="1">Senin</option>
+                        <option value="2">Selasa</option>
+                        <option value="3">Rabu</option>
+                        <option value="4">Kamis</option>
+                        <option value="5">Jumat</option>
+                        <option value="6">Sabtu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="start_time">Waktu Mulai</label>
+                    <input type="time" name="start_time" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_time">Waktu Selesai</label>
+                    <input type="time" name="end_time" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject_id">Mata Pelajaran</label>
+                    <select name="subject_id" class="form-control" required>
+                        <option selected disabled>Pilih Mata Pelajaran</option>
+                        @foreach ($subjects as $subject)
+                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Tambah</button>
+            </div>
+        </form>
+    </x-modal>
+
+    <!-- Modal Edit Jadwal -->
+    <x-modal name="editScheduleModal">
+        <form action="{{ route('classrooms.schedules.update', $classroom) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="schedule_id" id="schedule_id">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editScheduleModalLabel">Edit Jadwal</h5>
+                <!-- For Bootstrap 4 -->
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="day">Hari</label>
+                    <select name="day" class="form-control" required>
+                        <option selected disabled>Pilih Hari</option>
+                        <option value="0">Minggu</option>
+                        <option value="1">Senin</option>
+                        <option value="2">Selasa</option>
+                        <option value="3">Rabu</option>
+                        <option value="4">Kamis</option>
+                        <option value="5">Jumat</option>
+                        <option value="6">Sabtu</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="start_time">Waktu Mulai</label>
+                    <input type="time" name="start_time" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="end_time">Waktu Selesai</label>
+                    <input type="time" name="end_time" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="subject_id">Mata Pelajaran</label>
+                    <select name="subject_id" class="form-control" required>
+                        <option selected disabled>Pilih Mata Pelajaran</option>
+                        @foreach ($subjects as $subject)
+                        <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </div>
+        </form>
+    </x-modal>
+
+
+
     @push('styles')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -256,6 +371,21 @@
         $(function () {
             $('#students').DataTable();
             $('#subjects').DataTable();
+        });
+
+        $('#editScheduleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var schedule = button.data('schedule');
+
+            var modal = $(this);
+            modal.find('.modal-body select[name="day"]').val(schedule.day);
+            // start time: 08:00:00 to 08:00
+            modal.find('.modal-body input[name="start_time"]').val(schedule.start_time.slice(0, 5));
+            modal.find('.modal-body input[name="end_time"]').val(schedule.end_time.slice(0, 5));
+            modal.find('.modal-body select[name="subject_id"]').val(schedule.subject.id);
+            modal.find('.modal-body input[name="schedule_id"]').val(schedule.id);
+
+            console.log(schedule);
         });
     </script>
     @endpush

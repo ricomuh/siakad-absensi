@@ -83,6 +83,7 @@ class ClassRoomController extends Controller
             })->mapWithKeys(function ($schedules, $day) {
                 return [$schedules->first()->dayName => $schedules];
             });
+        // dd($schedulesNormalized);
 
 
         // dd($subjects, $schedules);

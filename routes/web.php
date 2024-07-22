@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleClassController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectClassController;
@@ -37,6 +38,13 @@ Route::middleware('auth')->group(function () {
             ->name('classrooms.subjects.store');
         Route::delete('/classrooms/{classroom}/subjects', [SubjectClassController::class, 'destroy'])
             ->name('classrooms.subjects.destroy');
+
+        Route::post('/classrooms/{classroom}/schedules', [ScheduleClassController::class, 'store'])
+            ->name('classrooms.schedules.store');
+        Route::put('/classrooms/{classroom}/schedules', [ScheduleClassController::class, 'update'])
+            ->name('classrooms.schedules.update');
+        Route::delete('/classrooms/{schedule}/schedules', [ScheduleClassController::class, 'destroy'])
+            ->name('classrooms.schedules.destroy');
 
         Route::resource('subjects', SubjectController::class);
         Route::resource('students', StudentController::class);
