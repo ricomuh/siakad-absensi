@@ -31,6 +31,12 @@
             </div>
             <div class="card-footer">
 
+                @if ($student->classRoom)
+                    <a href="{{ route('classrooms.show', $student->classRoom->classRoom) }}" class="btn btn-info">
+                        <i class="fas fa-eye"></i>
+                        Lihat Kelas
+                    </a>
+                @endif
                 <a href="{{ route('students.edit', $student) }}" class="btn btn-primary">
                     <i class="fas fa-edit"></i>
                     Edit Siswa
