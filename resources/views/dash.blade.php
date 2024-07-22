@@ -8,7 +8,7 @@
                     <div class="card-header">Logged In</div>
                     <div class="card-body">
                         <p>Welcome to your logged in page!</p>
-                        <a href="#" class="btn btn-primary">Logout</a>
+                        <a href="{{ route('logout') }}" class="btn btn-primary">Logout</a>
                     </div>
                 </div>
             </div>
