@@ -17,15 +17,6 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $classroom->name }}</h5>
 
-                        {{-- <p class="card-text">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                            {{ $classroom->teacher->name }}
-                        </p>
-                        <p class="card-text">
-                            <i class="fas fa-users"></i>
-                            {{ $classroom->students->count() }} Murid
-                        </p> --}}
-
                         <p class="card-text">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <strong>Guru:</strong> {{ $classroom->teacher->name }}
@@ -102,8 +93,27 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $student->name }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-info btn-sm">Detail</a>
+                                    <td class="d-flex">
+                                        <a href="{{ route('students.show', $student) }}" class="btn btn-info btn-sm me-2">
+                                            <i class="fas fa-eye"></i>
+                                            Detail
+                                        </a>
+                                        <form action="#" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus murid ini dari kelas?')">
+                                            @csrf
+                                            <input type="hidden" name="student_id" value="{{ $student->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                                Hapus
+                                            </button>
+                                        </form>
+                                        {{-- <form action="{{ route('classrooms.remove_student', $classroom) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus murid ini dari kelas?')">
+                                            @csrf
+                                            <input type="hidden" name="student_id" value="{{ $student->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                                Hapus
+                                            </button>
+                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach
