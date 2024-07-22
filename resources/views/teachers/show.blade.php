@@ -22,6 +22,9 @@
                             <strong>NIP:</strong> {{ $teacher->nip }}
                         </p>
                         <p class="card-text">
+                            <strong>Email:</strong> {{ $teacher->email }}
+                        </p>
+                        <p class="card-text">
                             <strong>Mapel:</strong>
                             @forelse ($teacher->subjects as $subject)
                             <a class="badge badge-primary" href="{{ route('subjects.show', $subject) }}">
