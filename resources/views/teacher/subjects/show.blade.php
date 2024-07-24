@@ -34,7 +34,7 @@
                         <h3 class="card-title">Mulai Sesi</h3>
                     </div>
                     <div class="card-body">
-                        <form action="#" method="post">
+                        <form action="{{ route('teacher.sessions.store') }}" method="post">
                             @csrf
                             <select name="schedule_id" class="form-control mb-3">
                                 <option value="">Pilih Jadwal</option>

@@ -8,6 +8,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectClassController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Teacher\ScheduleController;
+use App\Http\Controllers\Teacher\SessionController;
 use App\Http\Controllers\Teacher\SubjectController as TeacherSubjectController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Auth;
@@ -59,6 +60,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/schedules', [ScheduleController::class, 'index'])->name('teacher.schedules.index');
             Route::get('/subjects', [TeacherSubjectController::class, 'index'])->name('teacher.subjects.index');
             Route::get('/subjects/{classRoom}', [TeacherSubjectController::class, 'show'])->name('teacher.classrooms.show');
+
+            Route::post('/sessions', [SessionController::class, 'store'])->name('teacher.sessions.store');
+            Route::get('/sessions/{session}/students', [SessionController::class, 'students'])->name('teacher.sessions.students');
+            Route::get('/sessions/{session}', [SessionController::class, 'show'])->name('teacher.sessions.show');
+            Route::delete('/sessions/{session}', [SessionController::class, 'close'])->name('teacher.sessions.destroy');
         });
 });
 

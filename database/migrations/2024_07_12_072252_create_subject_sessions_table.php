@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('schedule_id')->constrained('schedules');
             $table->string('uuid')->unique();
+            $table->text('qr_code')->nullable();
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
