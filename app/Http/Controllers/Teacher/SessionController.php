@@ -66,8 +66,8 @@ class SessionController extends Controller
 
     public function close(SubjectSession $session)
     {
-        abort_unless($session->schedule->classSubject->subject->teacher_id === auth()->id(), 403);
-        abort_if($session->closed_at, 403);
+        // abort_unless($session->schedule->classSubject->subject->teacher_id === auth()->id(), 403);
+        // abort_if($session->closed_at, 403);
 
         $session->update([
             'closed_at' => now()
