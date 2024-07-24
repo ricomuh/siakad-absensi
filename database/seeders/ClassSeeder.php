@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\ClassSubject;
 use App\Models\Schedule;
 use App\Models\StudentClass;
+use App\Models\StudentPresent;
+use App\Models\SubjectSession;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -51,24 +53,53 @@ class ClassSeeder extends Seeder
 
         $classRooms->each(function ($classRoom) use ($students, $createdSubjects) {
             $classRoom->each(function ($class) use ($students, $createdSubjects) {
-                $students->random(10)->each(function ($student) use ($class) {
-                    // $class->students()->attach($student->id);
-                    StudentClass::create([
-                        'class_room_id' => $class->id,
-                        'student_id' => $student->id,
-                    ]);
-                });
 
-                $createdSubjects->random(4)->each(function ($subject) use ($class) {
+                $studentsForThisClass = $students->random(20);
+
+                $studentsForThisClass
+                    ->each(function ($student) use ($class) {
+                        // $class->students()->attach($student->id);
+                        StudentClass::create([
+                            'class_room_id' => $class->id,
+                            'student_id' => $student->id,
+                        ]);
+                    });
+
+                $createdSubjects->random(4)->each(function ($subject) use ($class, $studentsForThisClass) {
                     $classSubject =
                         ClassSubject::create([
                             'class_room_id' => $class->id,
                             'subject_id' => $subject->id,
                         ]);
 
-                    Schedule::factory(rand(1, 2))->create([
-                        'class_subject_id' => $classSubject->id,
-                    ]);
+                    $schedules =
+                        Schedule::factory(rand(1, 2))->create([
+                            'class_subject_id' => $classSubject->id,
+                        ]);
+
+                    $schedules->each(function ($schedule) use ($studentsForThisClass) {
+                        $subjectSessions = SubjectSession::factory(rand(4, 10))->create([
+                            'schedule_id' => $schedule->id,
+                            'closed_at' => now()
+                        ]);
+
+                        $studentsForThisClass->each(function ($student) use ($subjectSessions) {
+                            $subjectSessions->random(rand(1, $subjectSessions->count()))
+                                ->each(function ($session) use ($student) {
+                                    StudentPresent::create([
+                                        'student_id' => $student->id,
+                                        'subject_session_id' => $session->id,
+                                    ]);
+                                });
+                        });
+
+                        // $studentsForThisClass->each(function ($student) use ($subjectSession) {
+                        //     StudentPresent::create([
+                        //         'student_id' => $student->id,
+                        //         'subject_session_id' => $subjectSession->id,
+                        //     ]);
+                        // });
+                    });
                 });
             });
         });

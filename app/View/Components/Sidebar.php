@@ -55,6 +55,19 @@ class Sidebar extends Component
                     'route' => 'teachers.index',
                     'icon' => 'fas fa-chalkboard-teacher',
                 ];
+        } elseif (auth()->user()->role_id === RoleEnum::TEACHER) {
+            $menus[] =
+                [
+                    'name' => 'Jadwal',
+                    'route' => 'teacher.schedules.index',
+                    'icon' => 'fas fa-calendar-alt',
+                ];
+            $menus[] =
+                [
+                    'name' => 'Mata Pelajaran',
+                    'route' => 'teacher.subjects.index',
+                    'icon' => 'fas fa-book',
+                ];
         }
 
 

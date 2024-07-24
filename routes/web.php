@@ -7,6 +7,8 @@ use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectClassController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\Teacher\ScheduleController;
+use App\Http\Controllers\Teacher\SubjectController as TeacherSubjectController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +52,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('students', StudentController::class);
         Route::resource('teachers', TeacherController::class);
     });
+
+    Route::middleware('teacher')
+        ->prefix('teacher')
+        ->group(function () {
+            Route::get('/schedules', [ScheduleController::class, 'index'])->name('teacher.schedules.index');
+            Route::get('/subjects', [TeacherSubjectController::class, 'index'])->name('teacher.subjects.index');
+            Route::get('/subjects/{classRoom}', [TeacherSubjectController::class, 'show'])->name('teacher.classrooms.show');
+        });
 });
 
 require __DIR__ . '/auth.php';

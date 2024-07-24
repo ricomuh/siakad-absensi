@@ -31,15 +31,19 @@ $colors = [
                             <div class="card-header">
                                 <h5 class="card-title text-bold text-dark">
                                     {{-- {{ $schedule->subject }} <br> --}}
-                                    @if ($schedule->subject)
-                                    <a href="href="{{ $schedule->subject ? route('subjects.show', $schedule->subject) : route('classrooms.show', $schedule->classroom) }}">
-                                        {{ $schedule->subject->name }}
-                                    </a>
+                                    @if (auth()->user()->role_id == \App\Enums\RoleEnum::ADMIN)
+                                        @if ($schedule->subject)
+                                        <a href="href="{{ $schedule->subject ? route('subjects.show', $schedule->subject) : route('classrooms.show', $schedule->classroom) }}">
+                                            {{ $schedule->subject->name }}
+                                        </a>
+                                        @else
+                                        {{-- {{ $schedule->classroom->name }} --}}
+                                        <a href="{{ route('classrooms.show', $schedule->classroom) }}">
+                                            {{ $schedule->classroom->name }}
+                                        </a>
+                                        @endif
                                     @else
-                                    {{-- {{ $schedule->classroom->name }} --}}
-                                    <a href="{{ route('classrooms.show', $schedule->classroom) }}">
-                                        {{ $schedule->classroom->name }}
-                                    </a>
+                                        {{ $schedule->subject?->name }}
                                     @endif
                                     <br>
                                     {{ $schedule->start_time }} - {{ $schedule->end_time }}

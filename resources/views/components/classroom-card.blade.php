@@ -9,11 +9,13 @@ $colors = [
 'bg-info',
 'bg-dark',
 ];
+
+$classroomLink = $link ?? route('classrooms.show', $classroom);
 @endphp
 <div class="card card-widget widget-user-2">
     <!-- Add the bg color to the header using any of the bg-* classes -->
     <!-- color -->
-    <a class="widget-user-header {{ $colors[$classroom->id % count($colors)] }}" href="{{ route('classrooms.show', $classroom) }}">
+    <a class="widget-user-header {{ $colors[$classroom->id % count($colors)] }}" href="{{ $classroomLink }}">
         <div class="widget-user-image" style="display: inline-block;">
             <div class="img-circle elevation-2" style="background-color: #3c8dbc; width: 48px; height: 48px; text-align: center; line-height: 35px; font-size: 18px; color: #fff; font-weight: bold; display: flex; align-items: center; justify-content: center;">
                 {{-- Class 7 n -> C7N --}}
@@ -33,14 +35,16 @@ $colors = [
     <div class="card-footer p-0">
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a href="{{ route('classrooms.show', $classroom) }}#students" class="nav-link">
+                <a href="{{ $classroomLink }}#students" class="nav-link">
                     Jumlah Murid <span class="float-right badge bg-info">{{ $classroom->students_count }}</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{ route('classrooms.show', $classroom) }}#subjects" class="nav-link">
+                @if ($classroom->subjects_count)
+                <a href="{{ $classroomLink }}#subjects" class="nav-link">
                     Jumlah Mapel <span class="float-right badge bg-info">{{ $classroom->subjects_count }}</span>
                 </a>
+                @endif
             </li>
         </ul>
     </div>

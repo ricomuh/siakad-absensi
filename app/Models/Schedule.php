@@ -79,4 +79,14 @@ class Schedule extends Model
     {
         return $this->hasMany(SubjectSession::class);
     }
+
+    /**
+     * Get the schedule's only one session.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function session(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(SubjectSession::class);
+    }
 }

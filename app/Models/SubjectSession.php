@@ -17,6 +17,12 @@ class SubjectSession extends Model
     protected $fillable = [
         'schedule_id',
         'uuid',
+        'closed_at'
+    ];
+
+    // cast the closed_at attribute to a datetime object
+    protected $casts = [
+        'closed_at' => 'datetime'
     ];
 
     /**
@@ -27,5 +33,15 @@ class SubjectSession extends Model
     public function schedule()
     {
         return $this->belongsTo(Schedule::class);
+    }
+
+    /**
+     * Get the student presents for the subject session.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function studentPresents(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(StudentPresent::class, 'subject_session_id');
     }
 }

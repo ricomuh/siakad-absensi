@@ -14,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('subject_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('scedule_id')->constrained('schedules');
+            $table->foreignId('schedule_id')->constrained('schedules');
             $table->string('uuid')->unique();
+            $table->timestamp('closed_at')->nullable();
             $table->timestamps();
         });
     }
