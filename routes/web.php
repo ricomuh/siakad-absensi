@@ -63,6 +63,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/subjects/{classRoom}', [TeacherSubjectController::class, 'show'])->name('teacher.classrooms.show');
             Route::get('/subjects/{classSubject}/students/{student}', [TeacherSubjectController::class, 'student'])
                 ->name('teacher.subjects.students.show');
+            Route::get('/subjects/sessions/{session}', [TeacherSubjectController::class, 'session'])
+                ->name('teacher.subjects.sessions.show');
 
             Route::post('/sessions', [SessionController::class, 'store'])->name('teacher.sessions.store');
             Route::get('/sessions/{session}/students', [SessionController::class, 'students'])->name('teacher.sessions.students');

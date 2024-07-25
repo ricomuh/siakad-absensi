@@ -7,6 +7,7 @@ use App\Models\ClassRoom;
 use App\Models\ClassSubject;
 use App\Models\Schedule;
 use App\Models\Subject;
+use App\Models\SubjectSession;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -116,5 +117,19 @@ class SubjectController extends Controller
         // dd($sessions);
 
         return view('teacher.subjects.student', compact('student', 'sessions', 'classSubject'));
+    }
+
+    public function session(SubjectSession $session)
+    {
+        $session->load([
+            'schedule.classSubject'
+            => [
+                'subject',
+                'classRoom',
+            ],
+            'studentPresents.student'
+        ]);
+
+        return view('teacher.subjects.session', compact('session'));
     }
 }
