@@ -24,6 +24,7 @@ class SessionController extends Controller
 
 
         $session = SubjectSession::create([
+            'class_subject_id' => $request->class_subject_id,
             'schedule_id' => $request->schedule_id,
             'uuid' => $uuid,
             'qr_code' => $image,

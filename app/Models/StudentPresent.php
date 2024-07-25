@@ -17,6 +17,9 @@ class StudentPresent extends Model
     protected $fillable = [
         'student_id',
         'subject_session_id',
+        'ip_address',
+        'user_agent',
+        'location',
     ];
 
     /**

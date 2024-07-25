@@ -94,7 +94,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="#" class="btn btn-primary">Detail</a>
+                                                <a href="{{ route('teacher.subjects.students.show', [$classSubject, $student]) }}"
+                                                class="btn btn-primary">Detail</a>
                                             </td>
                                         </tr>
                                     @endforeach

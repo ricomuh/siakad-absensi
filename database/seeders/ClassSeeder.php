@@ -87,7 +87,7 @@ class ClassSeeder extends Seeder
                         $studentsForThisClass->each(function ($student) use ($subjectSessions) {
                             $subjectSessions->random(rand(1, $subjectSessions->count()))
                                 ->each(function ($session) use ($student) {
-                                    StudentPresent::create([
+                                    StudentPresent::factory()->create([
                                         'student_id' => $student->id,
                                         'subject_session_id' => $session->id,
                                     ]);

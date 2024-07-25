@@ -7,6 +7,7 @@ use App\Models\ClassRoom;
 use App\Models\ClassSubject;
 use App\Models\Schedule;
 use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -71,7 +72,7 @@ class SubjectController extends Controller
                 return [$daySchedules->first()->dayName => $daySchedules];
             });
 
-        $sessions = $schedules->pluck('sessions')->flatten();
+        $sessions = $schedules->pluck('sessions')->flatten()->sortBy('created_at');
         $classRoom = $classSubject->classRoom;
         $students = $classRoom->students->pluck('student')->map(function ($student) use ($sessions) {
             // $studentSessions = $sessions->map(function ($session) use ($student) {
@@ -94,5 +95,26 @@ class SubjectController extends Controller
 
         // dd($schedules);
         return view('teacher.subjects.show', compact('classRoom', 'classSubject', 'students', 'subject', 'mappedSchedules', 'sessions', 'schedules', 'currentSchedule'));
+    }
+
+    public function student(ClassSubject $classSubject, User $student)
+    {
+        $classSubject->load([
+            'subject',
+            'classRoom',
+            'schedules.sessions.studentPresents.student'
+        ]);
+        $schedules = $classSubject->schedules;
+        $sessions = $schedules->pluck('sessions')->flatten();
+
+        $sessions = $sessions->map(function ($session) use ($student) {
+            $studentPresent = $session->studentPresents->firstWhere('student_id', $student->id);
+            $session->studentPresent = $studentPresent;
+            return $session;
+        })->sortBy('created_at');
+        // dd($studentSessions, $sessions);
+        // dd($sessions);
+
+        return view('teacher.subjects.student', compact('student', 'sessions', 'classSubject'));
     }
 }

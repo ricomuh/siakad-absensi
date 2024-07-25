@@ -17,7 +17,9 @@ class StudentPresentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'ip_address' => $this->faker->ipv4,
+            'user_agent' => $this->faker->userAgent,
+            'location' => $this->faker->address,
         ];
     }
 }

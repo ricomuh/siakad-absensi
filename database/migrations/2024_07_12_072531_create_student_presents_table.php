@@ -17,6 +17,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('users');
             $table->foreignId('subject_session_id')->constrained('subject_sessions');
+            // ip address of the student
+            $table->string('ip_address')->nullable();
+            // user agent of the student
+            $table->string('user_agent')->nullable();
+            // location of the student
+            $table->string('location')->nullable();
             $table->timestamps();
         });
     }
