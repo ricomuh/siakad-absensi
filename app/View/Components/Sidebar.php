@@ -68,6 +68,13 @@ class Sidebar extends Component
                     'route' => 'teacher.subjects.index',
                     'icon' => 'fas fa-book',
                 ];
+        } elseif (auth()->user()->role_id === RoleEnum::STUDENT) {
+            $menus[] =
+                [
+                    'name' => 'Jadwal',
+                    'route' => 'student.schedules.index',
+                    'icon' => 'fas fa-calendar-alt',
+                ];
         }
 
 

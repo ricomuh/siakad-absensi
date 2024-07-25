@@ -3,11 +3,12 @@
 use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleClassController;
+use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectClassController;
 use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\Teacher\ScheduleController;
+use App\Http\Controllers\Teacher\ScheduleController as TeacherScheduleController;
 use App\Http\Controllers\Teacher\SessionController;
 use App\Http\Controllers\Teacher\SubjectController as TeacherSubjectController;
 use App\Http\Controllers\TeacherController;
@@ -57,7 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('teacher')
         ->prefix('teacher')
         ->group(function () {
-            Route::get('/schedules', [ScheduleController::class, 'index'])->name('teacher.schedules.index');
+            Route::get('/schedules', [TeacherScheduleController::class, 'index'])->name('teacher.schedules.index');
             Route::get('/subjects', [TeacherSubjectController::class, 'index'])->name('teacher.subjects.index');
             Route::get('/subjects/{classRoom}', [TeacherSubjectController::class, 'show'])->name('teacher.classrooms.show');
 
@@ -65,6 +66,12 @@ Route::middleware('auth')->group(function () {
             Route::get('/sessions/{session}/students', [SessionController::class, 'students'])->name('teacher.sessions.students');
             Route::get('/sessions/{session}', [SessionController::class, 'show'])->name('teacher.sessions.show');
             Route::delete('/sessions/{session}', [SessionController::class, 'close'])->name('teacher.sessions.destroy');
+        });
+
+    Route::middleware('student')
+        ->prefix('student')
+        ->group(function () {
+            Route::get('/schedules', [StudentScheduleController::class, 'index'])->name('student.schedules.index');
         });
 });
 

@@ -77,8 +77,9 @@ class ClassSeeder extends Seeder
                             'class_subject_id' => $classSubject->id,
                         ]);
 
-                    $schedules->each(function ($schedule) use ($studentsForThisClass) {
+                    $schedules->each(function ($schedule) use ($studentsForThisClass, $classSubject) {
                         $subjectSessions = SubjectSession::factory(rand(4, 10))->create([
+                            'class_subject_id' => $classSubject->id,
                             'schedule_id' => $schedule->id,
                             'closed_at' => now()
                         ]);
@@ -92,13 +93,6 @@ class ClassSeeder extends Seeder
                                     ]);
                                 });
                         });
-
-                        // $studentsForThisClass->each(function ($student) use ($subjectSession) {
-                        //     StudentPresent::create([
-                        //         'student_id' => $student->id,
-                        //         'subject_session_id' => $subjectSession->id,
-                        //     ]);
-                        // });
                     });
                 });
             });

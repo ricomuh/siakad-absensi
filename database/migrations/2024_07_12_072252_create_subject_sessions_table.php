@@ -14,7 +14,11 @@ return new class extends Migration
     {
         Schema::create('subject_sessions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('schedule_id')->constrained('schedules');
+            $table->foreignId('class_subject_id')
+                ->constrained('class_subjects');
+            $table->foreignId('schedule_id')
+                ->nullable()
+                ->constrained('schedules');
             $table->string('uuid')->unique();
             $table->text('qr_code')->nullable();
             $table->timestamp('closed_at')->nullable();

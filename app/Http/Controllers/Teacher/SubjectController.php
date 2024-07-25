@@ -47,7 +47,7 @@ class SubjectController extends Controller
                     ]);
                 },
                 'subject',
-                'schedules.session.studentPresents.student'
+                'schedules.sessions.studentPresents.student'
             ])
             ->first();
 
@@ -71,7 +71,7 @@ class SubjectController extends Controller
                 return [$daySchedules->first()->dayName => $daySchedules];
             });
 
-        $sessions = $schedules->pluck('session');
+        $sessions = $schedules->pluck('sessions')->flatten();
         $classRoom = $classSubject->classRoom;
         $students = $classRoom->students->pluck('student')->map(function ($student) use ($sessions) {
             // $studentSessions = $sessions->map(function ($session) use ($student) {
@@ -92,11 +92,7 @@ class SubjectController extends Controller
             return $schedule->day === $now->dayOfWeekIso && $schedule->start_time <= $now->format('H:i:s') && $schedule->end_time >= $now->format('H:i:s');
         });
 
-        // dd($currentSchedule);
-
-        // dd($students);
-        // dd($classSubject);
-        // return response()->json(compact('classRoom', 'schedules'));
-        return view('teacher.subjects.show', compact('classRoom', 'students', 'subject', 'mappedSchedules', 'sessions', 'schedules', 'currentSchedule'));
+        // dd($schedules);
+        return view('teacher.subjects.show', compact('classRoom', 'classSubject', 'students', 'subject', 'mappedSchedules', 'sessions', 'schedules', 'currentSchedule'));
     }
 }

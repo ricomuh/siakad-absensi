@@ -15,6 +15,7 @@ class SubjectSession extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'class_subject_id',
         'schedule_id',
         'uuid',
         'closed_at'
@@ -24,6 +25,16 @@ class SubjectSession extends Model
     protected $casts = [
         'closed_at' => 'datetime'
     ];
+
+    /**
+     * Get the class subject that owns the subject session.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function classSubject()
+    {
+        return $this->belongsTo(ClassSubject::class);
+    }
 
     /**
      * Get the schedule that owns the subject session.

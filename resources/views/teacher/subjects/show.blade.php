@@ -36,6 +36,7 @@
                     <div class="card-body">
                         <form action="{{ route('teacher.sessions.store') }}" method="post">
                             @csrf
+                            <input type="hidden" name="class_subject_id" value="{{ $classSubject->id }}">
                             <select name="schedule_id" class="form-control mb-3">
                                 <option value="">Pilih Jadwal</option>
                                 @foreach ($schedules as $schedule)

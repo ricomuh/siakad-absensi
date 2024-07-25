@@ -50,4 +50,14 @@ class ClassSubject extends Model
     {
         return $this->hasMany(Schedule::class, 'class_subject_id');
     }
+
+    /**
+     * Get the subject sessions for the class subject.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function sessions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(SubjectSession::class, 'class_subject_id');
+    }
 }

@@ -13,6 +13,7 @@ class SessionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'class_subject_id' => 'required|exists:class_subjects,id',
             'schedule_id' => 'required|exists:schedules,id',
         ]);
 
