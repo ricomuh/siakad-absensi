@@ -16,10 +16,42 @@
   <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+
+    <style>
+        .login-page {
+            position: relative;
+            overflow: hidden;
+        }
+        .login-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('{{ asset('bg.jpg') }}') no-repeat center center/cover;
+            z-index: -1;
+            filter: blur(5px);
+            transform: scale(1.1);
+        }
+        .login-logo {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-logo img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
+    {{-- img --}}
+    <img src="{{ asset('logo.png') }}" alt="logo">
+    {{-- text --}}
     <a href="#">{{ config('app.name', 'Laravel') }}</a>
   </div>
   <!-- /.login-logo -->
