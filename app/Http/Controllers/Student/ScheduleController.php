@@ -19,10 +19,10 @@ class ScheduleController extends Controller
 
         $student->classRoom->classRoom->subjects->load([
             'subject.schedules' => function ($query) use ($student) {
-                // $query->where('class_subject_id', $student->classRoom->classRoom->subjects->first()->id);
-                $query->where('class_subject_id', $student->classRoom->classRoom->subjects->pluck('id'));
+                $query->whereIn('class_subject_id', $student->classRoom->classRoom->subjects->pluck('id')->toArray());
             }
         ]);
+        // dd($student);
 
         $classRoom = $student->classRoom->classRoom;
 
