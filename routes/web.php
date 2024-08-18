@@ -4,6 +4,7 @@ use App\Http\Controllers\ClassRoomController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleClassController;
 use App\Http\Controllers\Student\ScheduleController as StudentScheduleController;
+use App\Http\Controllers\Student\SessionController as StudentSessionController;
 use App\Http\Controllers\StudentClassController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectClassController;
@@ -76,6 +77,8 @@ Route::middleware('auth')->group(function () {
         ->prefix('student')
         ->group(function () {
             Route::get('/schedules', [StudentScheduleController::class, 'index'])->name('student.schedules.index');
+            Route::get('/present/{session:uuid}', [StudentSessionController::class, 'present'])->name('student.sessions.present');
+            Route::get('/present', [StudentSessionController::class, 'page'])->name('student.sessions.page');
         });
 });
 

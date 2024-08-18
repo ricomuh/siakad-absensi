@@ -9,7 +9,10 @@
                         <h3 class="card-title">{{ $session->schedule->classSubject->subject->name . ' ' . $session->schedule->classSubject->classRoom->name }}</h3>
                     </div>
                     <div class="card-body">
-                        <img src="{{ (new \chillerlan\QRCode\QRCode)->render($session->uuid) }}" alt="QR Code" class="img-fluid">
+                        {{-- (new \chillerlan\QRCode\QRCode)->render($session->uuid) --}}
+                        <img src="{{
+                        (new \chillerlan\QRCode\QRCode)->render(route('student.sessions.present', $session->uuid))
+                         }}" alt="QR Code" class="img-fluid">
                     </div>
                     <div class="card-footer">
                         <form action="{{ route('teacher.sessions.destroy', $session) }}" method="post">

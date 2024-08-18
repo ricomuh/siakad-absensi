@@ -75,6 +75,6 @@ class SessionController extends Controller
             'closed_at' => now()
         ]);
 
-        return redirect()->route('teacher.sessions.show', $session);
+        return redirect()->route('teacher.classrooms.show', $session->schedule->classSubject->classRoom);
     }
 }
