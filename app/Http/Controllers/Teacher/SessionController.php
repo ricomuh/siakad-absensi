@@ -42,8 +42,20 @@ class SessionController extends Controller
         // return $session->studentPresents->map(function ($studentPresent) {
         //     return $studentPresent->student;
         // });
-        $students = $session->studentPresents->map(function ($studentPresent) {
-            return $studentPresent->student;
+
+        $classroom = $session->schedule->classSubject->classRoom;
+
+
+        $students = $classroom->students->map(function ($studentRelation) use ($session) {
+            $student = $studentRelation->student;
+            $studentPresent = $session->studentPresents->firstWhere('student_id', $student->id);
+            if ($studentPresent) {
+                $student->status = $studentPresent->status;
+                $student->studentPresent = $studentPresent;
+            } else {
+                $student->status = 0;
+            }
+            return $student;
         });
 
         return response()->json($students);

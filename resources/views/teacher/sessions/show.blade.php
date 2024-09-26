@@ -35,6 +35,7 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Waktu</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody id="attendance-list">
@@ -74,10 +75,23 @@
                         attendanceList.innerHTML = '';
                         data.forEach((attendance, index) => {
                             const tr = document.createElement('tr');
+                            let status;
+                            switch (attendance.status) {
+                                case 0:
+                                    status = '<span class="badge badge-danger">Belum Hadir</span>';
+                                    break;
+                                case 1:
+                                    status = '<span class="badge badge-success">Hadir</span>';
+                                    break;
+                                default:
+                                    status = '<span class="badge badge-warning">Izin</span>';
+                                    break;
+                            }
                             tr.innerHTML = `
                                 <td>${index + 1}</td>
                                 <td>${attendance.name}</td>
                                 <td>${moment(attendance.created_at).format('DD MMMM YYYY, HH:mm:ss')}</td>
+                                <td>${status}</td>
                             `;
                             attendanceList.appendChild(tr);
                         });

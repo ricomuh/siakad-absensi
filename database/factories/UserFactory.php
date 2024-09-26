@@ -28,6 +28,8 @@ class UserFactory extends Factory
             'email' => function (array $attributes) {
                 // get the role name from the role_id
                 $role = \App\Models\Role::find($attributes['role_id'])->name;
+                // get the amount of users with the same role_id
+                // $count = \App\Models\User::where('role_id', $attributes['role_id'])->count();
                 return $role . '.' . str($attributes['name'])->slug() . '@example.com';
                 // return fake()->unique()->safeEmail();
             },
@@ -42,7 +44,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

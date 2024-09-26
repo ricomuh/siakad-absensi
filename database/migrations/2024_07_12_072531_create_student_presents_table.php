@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('users');
             $table->foreignId('subject_session_id')->constrained('subject_sessions');
+            $table->integer('status')->default(1);
             // ip address of the student
             $table->string('ip_address')->nullable();
             // user agent of the student
