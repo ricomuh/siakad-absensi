@@ -75,18 +75,25 @@
                         attendanceList.innerHTML = '';
                         data.forEach((attendance, index) => {
                             const tr = document.createElement('tr');
-                            let status;
-                            switch (attendance.status) {
-                                case 0:
-                                    status = '<span class="badge badge-danger">Belum Hadir</span>';
-                                    break;
-                                case 1:
-                                    status = '<span class="badge badge-success">Hadir</span>';
-                                    break;
-                                default:
-                                    status = '<span class="badge badge-warning">Izin</span>';
-                                    break;
-                            }
+                            const status = `
+                            <select name="status" class="form-control" onchange="updateStatus(${attendance.id}, this.value)">
+                                <option value="0" ${attendance.status == 0 ? 'selected' : ''}>Belum Hadir</option>
+                                <option value="1" ${attendance.status == 1 ? 'selected' : ''}>Hadir</option>
+                                <option value="2" ${attendance.status == 2 ? 'selected' : ''}>Izin</option>
+                            </select>
+                            `;
+                            // let status;
+                            // switch (attendance.status) {
+                            //     case 0:
+                            //         status = '<span class="badge badge-danger">Belum Hadir</span>';
+                            //         break;
+                            //     case 1:
+                            //         status = '<span class="badge badge-success">Hadir</span>';
+                            //         break;
+                            //     default:
+                            //         status = '<span class="badge badge-warning">Izin</span>';
+                            //         break;
+                            // }
                             tr.innerHTML = `
                                 <td>${index + 1}</td>
                                 <td>${attendance.name}</td>
@@ -97,6 +104,7 @@
                         });
                     });
             }
+
 
             fetchAttendance();
             setInterval(fetchAttendance, 5000);
