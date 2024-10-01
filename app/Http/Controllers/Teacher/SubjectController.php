@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Teacher;
 
+use App\Enums\RoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\ClassRoom;
 use App\Models\ClassSubject;
@@ -15,7 +16,12 @@ class SubjectController extends Controller
 {
     public function index()
     {
-        $subjects = Subject::where('teacher_id', auth()->user()->id)
+        $subjects = Subject
+            // ::where('teacher_id', auth()->user()->id)
+            ::query()
+            ->when(auth()->user()->role_id == RoleEnum::TEACHER, function ($query) {
+                $query->where('teacher_id', auth()->id());
+            })
             ->with(
                 [
                     'classRooms.classRoom' => function ($query) {
@@ -38,9 +44,9 @@ class SubjectController extends Controller
     public function show(ClassRoom $classRoom)
     {
         $classSubject = ClassSubject::where('class_room_id', $classRoom->id)
-            ->whereHas('subject', function ($query) {
-                $query->where('teacher_id', auth()->id());
-            })
+            // ->whereHas('subject', function ($query) {
+            //     $query->where('teacher_id', auth()->id());
+            // })
             ->with([
                 'classRoom' => function ($query) {
                     $query->with([
@@ -53,7 +59,10 @@ class SubjectController extends Controller
             ])
             ->first();
 
-        abort_unless($classSubject, 403);
+        abort_unless(
+            $classSubject || auth()->user()->role_id === RoleEnum::PRINCIPAL,
+            403
+        );
 
         // dd($classSubject);
 

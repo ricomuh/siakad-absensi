@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $roles = collect(['admin', 'teacher', 'student']);
+        $roles = collect(['admin', 'teacher', 'student', 'principal']);
 
         $createdRoles = $roles->map(function ($role) {
             return \App\Models\Role::create(['name' => $role]);
@@ -26,6 +26,9 @@ class UserSeeder extends Seeder
 
         // create students
         $students = \App\Models\User::factory(100)->create(['role_id' => $createdRoles->firstWhere('name', 'student')->id]);
+
+        // create principal
+        $principal = \App\Models\User::factory()->create(['role_id' => $createdRoles->firstWhere('name', 'principal')->id, 'email' => 'principal@example.com']);
 
         // call ClassSeeder with variable $admins, $teachers, and $students
         $this->call(ClassSeeder::class, false,  [

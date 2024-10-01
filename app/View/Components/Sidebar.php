@@ -75,6 +75,13 @@ class Sidebar extends Component
                     'route' => 'student.schedules.index',
                     'icon' => 'fas fa-calendar-alt',
                 ];
+        } elseif (auth()->user()->role_id === RoleEnum::PRINCIPAL) {
+            $menus[] =
+                [
+                    'name' => 'Mata Pelajaran',
+                    'route' => 'subjects.index',
+                    'icon' => 'fas fa-book',
+                ];
         }
 
 

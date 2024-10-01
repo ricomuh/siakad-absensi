@@ -66,6 +66,12 @@ class User extends Authenticatable
         return $query->where('role_id', RoleEnum::STUDENT);
     }
 
+    // principals scope
+    public function scopePrincipals($query)
+    {
+        return $query->where('role_id', RoleEnum::PRINCIPAL);
+    }
+
     /**
      * Get the role of the user.
      *
@@ -110,6 +116,16 @@ class User extends Authenticatable
     public function isStudent(): bool
     {
         return $this->role_id === RoleEnum::STUDENT;
+    }
+
+    /**
+     * Check if the user is a principal.
+     *
+     * @return bool
+     */
+    public function isPrincipal(): bool
+    {
+        return $this->role_id === RoleEnum::PRINCIPAL;
     }
 
     /**

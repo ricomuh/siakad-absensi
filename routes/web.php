@@ -60,8 +60,8 @@ Route::middleware('auth')->group(function () {
         ->prefix('teacher')
         ->group(function () {
             Route::get('/schedules', [TeacherScheduleController::class, 'index'])->name('teacher.schedules.index');
-            Route::get('/subjects', [TeacherSubjectController::class, 'index'])->name('teacher.subjects.index');
-            Route::get('/subjects/{classRoom}', [TeacherSubjectController::class, 'show'])->name('teacher.classrooms.show');
+            // Route::get('/subjects', [TeacherSubjectController::class, 'index'])->name('teacher.subjects.index');
+            // Route::get('/subjects/{classRoom}', [TeacherSubjectController::class, 'show'])->name('teacher.classrooms.show');
             Route::get('/subjects/{classSubject}/students/{student}', [TeacherSubjectController::class, 'student'])
                 ->name('teacher.subjects.students.show');
             Route::get('/subjects/sessions/{session}', [TeacherSubjectController::class, 'session'])
@@ -72,6 +72,11 @@ Route::middleware('auth')->group(function () {
             Route::get('/sessions/{session}', [SessionController::class, 'show'])->name('teacher.sessions.show');
             Route::delete('/sessions/{session}', [SessionController::class, 'close'])->name('teacher.sessions.destroy');
         });
+
+    Route::middleware('teacher_or_principal')->prefix('teacher')->group(function () {
+        Route::get('/subjects', [TeacherSubjectController::class, 'index'])->name('teacher.subjects.index');
+        Route::get('/subjects/{classRoom}', [TeacherSubjectController::class, 'show'])->name('teacher.classrooms.show');
+    });
 
     Route::middleware('student')
         ->prefix('student')
